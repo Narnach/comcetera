@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "comcetera"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "Wrapper class for Comcetera mobile operator detection based on msisdn."
+    gem.description = gem.summary
     gem.email = "narnach@gmail.com"
     gem.homepage = "http://github.com/Narnach/comcetera"
     gem.authors = ["Wes Oldenbeuving"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "fakeweb"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
