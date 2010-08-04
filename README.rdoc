@@ -1,6 +1,6 @@
 = comcetera
 
-Description goes here.
+First stab at a simple class that wraps the Comcetera mobile operator detection service. Give them a msisdn, they give you an operator code. Compile your own list of relevant codes based on wikipedia.
 
 == Note on Patches/Pull Requests
  
