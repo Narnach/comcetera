@@ -3,6 +3,7 @@ require 'timeout'
 
 class Comcetera
   attr_accessor :operator_code, :msisdn
+  attr_accessor :error_code, :debug
 
   def initialize(attributes={})
     attributes.each do |key, value|
@@ -38,7 +39,11 @@ class Comcetera
           Timeout::timeout(self.timeout) do
             body=open("http://api.comcetera.com/npl?user=#{self.username}&pass=#{self.password}&msisdn=#{msisdn}").read
             msisdn, operator_code = body.split("\n")[1].split(" ") # 2nd line, last word is the operator hexcode
-            return new(:operator_code => operator_code, :msisdn => msisdn)
+            unless operator_code.to_s =~ /ERR\d+/
+              return new(:operator_code => operator_code, :msisdn => msisdn)
+            else
+              return new(:operator_code => nil, :msisdn => msisdn, :error_code=>operator_code, :debug=>body)
+            end
           end
         rescue Timeout::Error, SystemCallError => e
           # ignore

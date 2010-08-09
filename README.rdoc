@@ -2,8 +2,35 @@
 
 First stab at a simple class that wraps the Comcetera mobile operator detection service. Give them a msisdn, they give you an operator code. Compile your own list of relevant codes based on wikipedia.
 
+I'm scratching my own itch here, so I'm only adding what I use. Feedback and patches are welcome
+
+== Example
+
+The usual way you'd do a lookup
+
+  Comcetera.username = "meeeeee"
+  Comcetera.password = "verysecret"
+  comcetera = Comcetera.detect(31612345678)
+  comcetera.operator_code # => "T-Mobile"
+  comcetera.msisdn        # => "31612345678"
+
+When the lookup does not work due to a timeout
+  Comcetera.detect(31612345678) # => nil
+
+When the lookup gives a result, but not what you'd expect
+
+  comcetera = Comcetera.detect(31612345678)
+  comcetera.error_code # => "ERR21"
+  comcetera.debug # => "QUERYOK\n31612345678 ERR21\nENDBATCH"
+
+== Operator codes
+
+Check the wikipedia page for Mobile Network Codes (http://en.wikipedia.org/wiki/Mobile_Network_Code) for a list of codes that you can expect.
+
+Example: Wikipedia mentions T-Mobile in the Netherlands as: MCC 204, MNC 16. Comcetera would return this as code 20416. This logic seems consistent across countries.
+
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
