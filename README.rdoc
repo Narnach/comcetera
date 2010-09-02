@@ -1,8 +1,10 @@
 = comcetera
 
-First stab at a simple class that wraps the Comcetera mobile operator detection service. Give them a msisdn, they give you an operator code. Compile your own list of relevant codes based on wikipedia.
+A simple wrapper for the NumberPortabilityLookup service of Comcetera. Give them a msisdn and they (usually) give you an operator code. Compile your own list of relevant codes based on wikipedia.
 
-I'm scratching my own itch here, so I'm only adding what I use. Feedback and patches are welcome
+I'm scratching my own itch here, so I'm only adding what I use. Feedback and patches are welcome.
+
+For more info about the service, take a look at: http://numberportabilitylookup.com/
 
 == Example
 
@@ -15,13 +17,17 @@ The usual way you'd do a lookup
   comcetera.msisdn        # => "31612345678"
 
 When the lookup does not work due to a timeout
+
   Comcetera.detect(31612345678) # => nil
 
-When the lookup gives a result, but not what you'd expect
+This means that the amount of retries specified as Comcetera.retries have all timed out after Comcetera.timeout seconds. You can retry at a later time or do something else. This is great if, as is my use case, the lookup is used as a type of pre-selection for numbers.
+
+The API can return a couple of errors. In this case, there is no operator code, but an error code and the full response as debug info.
 
   comcetera = Comcetera.detect(31612345678)
-  comcetera.error_code # => "ERR21"
-  comcetera.debug # => "QUERYOK\n31612345678 ERR21\nENDBATCH"
+  comcetera.operator_code # => nil
+  comcetera.error_code    # => "ERR21"
+  comcetera.debug         # => "QUERYOK\n31612345678 ERR21\nENDBATCH"
 
 == Operator codes
 
