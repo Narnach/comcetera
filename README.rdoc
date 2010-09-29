@@ -13,7 +13,7 @@ The usual way you'd do a lookup
   Comcetera.username = "meeeeee"
   Comcetera.password = "verysecret"
   comcetera = Comcetera.detect(31612345678)
-  comcetera.operator_code # => "T-Mobile"
+  comcetera.operator_code # => "20415"
   comcetera.msisdn        # => "31612345678"
 
 When the lookup does not work due to a timeout
