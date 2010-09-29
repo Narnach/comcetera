@@ -47,6 +47,7 @@ describe "Comcetera" do
       @comcetera = Comcetera.detect(31612345621)
       @comcetera.operator_code.should be_nil
       @comcetera.error_code.should == "ERR21"
+      @comcetera.error_message.should == "Comcetra Facility not supported"
       @comcetera.debug.should == <<-MSG
 QUERYOK
 31612345621 ERR21
