@@ -26,8 +26,9 @@ The API can return a couple of errors. In this case, there is no operator code, 
 
   comcetera = Comcetera.detect(31612345678)
   comcetera.operator_code # => nil
-  comcetera.error_code    # => "ERR21"
-  comcetera.debug         # => "QUERYOK\n31612345678 ERR21\nENDBATCH"
+  comcetera.error_code    # => "ERR29"
+  comcetera.error_message # => "Absent subscriber"
+  comcetera.debug         # => "QUERYOK\n31612345678 ERR29\nENDBATCH"
 
 == Operator codes
 
