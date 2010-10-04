@@ -26,7 +26,7 @@ describe "Comcetera" do
     it "should retry after a timeout and return nil when it still fails" do
       3.times {Timeout.should_receive(:timeout).with(2).and_raise(Timeout::Error)}
       @comcetera = Comcetera.detect(31612345678)
-      @comcetera.should be_nil
+      @comcetera.should == Comcetera.new(:error_message=>"Timeout from Comcetera", :debug=>"2 times no response within 2 seconds")
     end
 
     describe "the returned Comcetera instance" do

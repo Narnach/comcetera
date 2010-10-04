@@ -58,7 +58,14 @@ class Comcetera
           # ignore
         end
       end
-      nil
+      new(:error_message=>"Timeout from Comcetera", :debug=>"#{self.retries} times no response within #{self.timeout} seconds")
     end
+  end
+
+  def ==(other)
+    [:operator_code, :msisdn, :error_code, :error_message, :debug].each do |attribute|
+      return false unless self.send(attribute) == other.send(attribute)
+    end
+    true
   end
 end
