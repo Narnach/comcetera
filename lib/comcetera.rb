@@ -60,6 +60,19 @@ class Comcetera
       end
       new(:error_message=>"Timeout from Comcetera", :debug=>"#{self.retries} times no response within #{self.timeout} seconds")
     end
+
+    def setup_fakeweb_response(options={})
+      raise "FakeWeb is not defined. Please require 'fakeweb' and make sure the fakeweb rubygem is installed." unless defined?(FakeWeb)
+      raise ArgumentError.new("Option missing: :msisdn") unless options[:msisdn]
+      raise ArgumentError.new("Option missing: :result") unless options[:result]
+      options[:username]||= self.username
+      options[:password]||= self.password
+      FakeWeb.register_uri :get, "http://api.comcetera.com/npl?user=#{options[:username]}&pass=#{options[:password]}&msisdn=#{options[:msisdn]}", :body=> <<-MSG
+QUERYOK
+#{options[:msisdn]} #{options[:result]}
+ENDBATCH
+      MSG
+    end
   end
 
   def ==(other)

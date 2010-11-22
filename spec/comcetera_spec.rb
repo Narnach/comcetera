@@ -1,20 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-FakeWeb.register_uri :get, 'http://api.comcetera.com/npl?user=username&pass=password&msisdn=31612345678', :body=> <<-MSG
-QUERYOK
-31612345678 12345
-ENDBATCH
-MSG
-FakeWeb.register_uri :get, 'http://api.comcetera.com/npl?user=username&pass=password&msisdn=31612345621', :body=> <<-MSG
-QUERYOK
-31612345621 ERR21
-ENDBATCH
-MSG
-
 describe "Comcetera" do
   before(:all) do
     Comcetera.username = "username"
     Comcetera.password = "password"
+    Comcetera.setup_fakeweb_response(:msisdn=>31612345678, :result => 12345)
+    Comcetera.setup_fakeweb_response(:msisdn=>31612345621, :result => "ERR21")
   end
 
   describe "detect" do
@@ -42,7 +33,7 @@ describe "Comcetera" do
         @comcetera.msisdn.should == "31612345678"
       end
     end
-    
+
     it "should return an instance with error code and debug info when no operator code is returned" do
       @comcetera = Comcetera.detect(31612345621)
       @comcetera.operator_code.should be_nil
